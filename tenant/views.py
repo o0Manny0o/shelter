@@ -8,7 +8,6 @@ from .models import Animal
 # Create your views here.
 class Test(View):
     def get(self, request, *args, **kwargs):
-        print(request.tenant)
         return render(request, 'welcome.html')
 
 

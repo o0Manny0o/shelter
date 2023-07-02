@@ -37,6 +37,7 @@ SHARED_APPS = [
     'django_tenants',
     'main',
     'debug_toolbar',
+    'solo',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +47,7 @@ SHARED_APPS = [
 ]
 
 TENANT_APPS = [
+    'settings',
     'tenant',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,6 +74,7 @@ MIDDLEWARE = [
     'main.middlewares.TenantDetailsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'settings.middlewares.SiteConfigurationMiddleware'
 ]
 
 ROOT_URLCONF = 'shelterProject.urls'

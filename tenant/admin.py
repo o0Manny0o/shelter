@@ -2,7 +2,6 @@ from django.contrib import admin
 
 from . import models
 
-
 class ImagesInline(admin.TabularInline):
     model = models.Image
     ordering = ('order', )

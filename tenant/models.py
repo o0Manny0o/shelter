@@ -1,11 +1,6 @@
 from django.db import models
 from django.utils.safestring import mark_safe
-
 from tenant import choices
-
-
-class Settings(models.Model):
-    title = models.CharField(max_length=25)
 
 
 class Animal(models.Model):
