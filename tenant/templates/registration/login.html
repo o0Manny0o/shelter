@@ -1,0 +1,15 @@
+{% extends "base_tenant.html" %}
+
+{% block title %}
+    {{ block.super }} - Login
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Shelter thing
+{% endblock %}
+
+{% block content %}
+    <nav>
+        <ul>
+            <li><strong>Shelter Thing</strong></li>
+        </ul>
+        <ul>
+            <li><a href="{% url 'main:home' %}">Home</a></li>
+            {% if user.is_authenticated %}
+                {% with "http://"|add:request.domain_url|add:":8000" as domain_url %}
+                    <li><a href="{{ domain_url }}">Go to Page</a></li>
+                {% endwith %}
+                <li><a href="{% url 'main:logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'main:signup' %}">Sign Up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="TODO">
+    <meta name="keywords" content="TODO">
+    <meta name="author" content="TODO">
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="TODO"/>
+    <meta property="og:url" content="TODO/"/>
+    <meta property="og:image" content="TODO"/>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/pico.min.css' %}"></link>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+</head>
+
+<body class="container">
+
+{#{% if messages %}#}
+{#    <div id="message-container">#}
+{#        {% for message in messages %}#}
+{#            <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">#}
+{#                {{ message | safe }}#}
+{#                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#{% endif %}#}
+
+<main>
+    {% block content %}
+    {% endblock content %}
+</main>
+
+{% block scripts %}
+{% endblock scripts %}
+
+</body>
+
+</html>
