@@ -2,6 +2,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.views import View
+from .models import Animal
 
 
 # Create your views here.
@@ -9,6 +10,12 @@ class Test(View):
     def get(self, request, *args, **kwargs):
         print(request.tenant)
         return render(request, 'welcome.html')
+
+
+class Animals(View):
+    def get(self, request, *args, **kwargs):
+        query = Animal.objects.all().prefetch_related('images')
+        return render(request, 'animals.html', {'animal_list': query})
 
 
 class SignUp(View):

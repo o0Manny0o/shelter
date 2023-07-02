@@ -3,6 +3,7 @@
             <li><strong>{{ request.tenant_name }}</strong></li>
         </ul>
         <ul>
+            <li><a href="/animals">Animals</a></li>
             <li><a href="/admin">Admin</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'logout' %}">Logout</a></li>
