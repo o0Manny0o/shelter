@@ -8,7 +8,7 @@ from solo.models import SingletonModel
 
 class SiteConfiguration(SingletonModel):
     title = models.CharField(max_length=25)
-    logo = models.ImageField(upload_to='images')
+    logo = models.ImageField(upload_to='images', default='./logo.png')
 
 
 @receiver(post_schema_sync, sender=TenantMixin)

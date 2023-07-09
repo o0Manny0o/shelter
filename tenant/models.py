@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+
+from animals_public.models import DogBreed, CatBreed
 from tenant import choices
 
 
@@ -20,16 +22,13 @@ class Image(models.Model):
 
 
 class Dog(Animal):
-
     size = models.CharField(
         max_length=1,
         choices=choices.Sizes.choices,
         default=choices.Sizes.SMALL
     )
 
-    breed = models.IntegerField(
-        choices=choices.DogBreeds.choices,
-    )
+    breed = models.ForeignKey(DogBreed, on_delete=models.SET_NULL, null=True)
 
 
 class Cat(Animal):
@@ -39,6 +38,4 @@ class Cat(Animal):
         default=choices.Sizes.SMALL
     )
 
-    breed = models.IntegerField(
-        choices=choices.DogBreeds.choices,
-    )
+    breed = models.ForeignKey(CatBreed, on_delete=models.SET_NULL, null=True)

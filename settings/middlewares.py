@@ -6,8 +6,9 @@ class SiteConfigurationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        config = SiteConfiguration.get_solo()
-        request.config = config
+        if request.tenant.name != 'public':
+            config = SiteConfiguration.get_solo()
+            request.config = config
         response = self.get_response(request)
 
         # Code to be executed for each request/response after
