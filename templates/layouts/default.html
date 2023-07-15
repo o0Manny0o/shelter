@@ -1,0 +1,12 @@
+{% extends "base_tenant.html" %}
+
+{% block title %}
+    {{ block.super }} - {{ page.title }}
+{% endblock %}
+
+
+{% block content %}
+    {{ block.super }}
+
+    {{ page.content }}
+{% endblock %}

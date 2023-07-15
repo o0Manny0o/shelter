@@ -14,5 +14,6 @@ class SiteConfiguration(SingletonModel):
 @receiver(post_schema_sync, sender=TenantMixin)
 def created_user_client(sender, **kwargs):
     client = kwargs['tenant']
-    with tenant_context(client):
-        SiteConfiguration.objects.create(title=client.name)
+    if client.name != 'public':
+        with tenant_context(client):
+            SiteConfiguration.objects.create(title=client.name)

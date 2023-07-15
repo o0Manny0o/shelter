@@ -44,12 +44,14 @@ SHARED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'animals_public'
+    'animals_public',
+    'cms_public'
 ]
 
 TENANT_APPS = [
     'settings',
     'tenant',
+    'cms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
