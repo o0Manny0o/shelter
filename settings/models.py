@@ -7,8 +7,12 @@ from solo.models import SingletonModel
 
 
 class SiteConfiguration(SingletonModel):
-    title = models.CharField(max_length=25)
-    logo = models.ImageField(upload_to='images', default='./logo.png')
+    title = models.CharField(max_length=25, help_text="Page title displayed at the top of every page")
+    logo = models.ImageField(upload_to='images', default='./logo.png', help_text="The logo next to the title")
+    hero = models.ImageField(upload_to='images', null=True, blank=True)
+
+    def __str__(self):
+        return "Site Configuration"
 
 
 @receiver(post_schema_sync, sender=TenantMixin)

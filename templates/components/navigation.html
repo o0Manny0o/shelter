@@ -1,0 +1,47 @@
+<div class="h-full py-6 overflow-y-auto">
+    <div class="h-full p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+        <a href="{% url 'tenant:welcome' %}"
+       class="flex items-center px-3 py-6 text-gray-900 text-3xl font-bold dark:text-white">
+        <img class="h-9 w-9 object-cover" src="{{ request.config.logo.url }}" alt="Logo"/>
+        <span class="ml-3">{{ request.config.title }}</span>
+    </a>
+        <ul class="font-medium">
+            {% with anchor_styles="flex items-center p-2 text-gray-500 rounded-lg transition duration-75 group-hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700" icon_styles="w-5 h-5 flex items-center justify-center" %}
+                <li>
+                    <a href="{% url 'tenant:animals' %}"
+                       class="{{ anchor_styles }}">
+                        <i class="fa-solid fa-dog {{ icon_styles }}"></i>
+                        <span class="ml-3">Animals</span>
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <li>
+                            <a href="/admin"
+                               class="{{ anchor_styles }}">
+                                <i class="fa-solid fa-screwdriver-wrench {{ icon_styles }}"></i>
+                                <span class="ml-3">Admin Panel</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="{% url 'logout' %}"
+                           class="{{ anchor_styles }}">
+                            <i class="fa-solid fa-right-from-bracket {{ icon_styles }}"></i>
+                            <span class="ml-3">Logout</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'login' %}"
+                           class="{{ anchor_styles }}">
+                            <i class="fa-solid fa-right-to-bracket {{ icon_styles }}"></i>
+                            <span class="ml-3">Sign in</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+            {% endwith %}
+        </ul>
+    </div>
+</div>

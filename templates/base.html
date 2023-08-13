@@ -25,15 +25,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1c958f87d0.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="{% static 'css/pico.min.css' %}"></link>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
     {% tailwind_css %}
 
 </head>
 
-<body class="container">
+<body>
 
 {#{% if messages %}#}
 {#    <div id="message-container">#}
@@ -45,11 +45,27 @@
 {#        {% endfor %}#}
 {#    </div>#}
 {#{% endif %}#}
+<div class="w-screen">
+    {% block pre_container %}
+    {% endblock %}
+    <div class="max-w-11xl mx-auto px-4 sm:px-6 md:px-8">
+        <aside class="fixed top-0 left-[max(2rem,calc(50%-58rem))] w-64 h-screen transition-transform -translate-x-full sm:translate-x-0">
+            {% block sidebar %}
+            {% endblock %}
+        </aside>
+        <main class="sm:ml-64">
+            {% block pre_content %}
+            {% endblock %}
+            {% block content %}
+            {% endblock %}
+            {% block post_content %}
+            {% endblock %}
+        </main>
+    </div>
+</div>
 
-<main>
-    {% block content %}
-    {% endblock content %}
-</main>
+{% block scripts_import %}
+{% endblock %}
 
 {% block scripts %}
 {% endblock scripts %}

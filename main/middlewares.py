@@ -8,9 +8,7 @@ class TenantDetailsMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        print(request.user)
         client = get_object_or_404(Client, schema_name=request.tenant)
-        print(client)
         request.tenant_name = client.name
         request.domain_url = client.domain_url
 

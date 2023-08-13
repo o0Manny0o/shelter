@@ -1,9 +1,63 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     {{ request.tenant_name }}
 {% endblock %}
 
+{% block sidebar %}
+    {% include 'components/navigation.html' %}
+{% endblock %}
+
+{% block pre_content %}
+    {% if user.is_authenticated and is_edit %}
+        <form method="post" action="{% url 'tenant:cms:page' page.slug %}">
+        {% csrf_token %}
+        <button onclick="save()">Save</button>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
-    {% include 'components/header.html' %}
+{% endblock %}
+
+{% block post_content %}
+    </form>
+{% endblock %}
+
+{% block scripts_import %}
+    {% if user.is_authenticated and is_edit %}
+        <script src="{% static 'js/ckeditor5-38.1.0/build/ckeditor.js' %}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    {% if user.is_authenticated and is_edit %}
+        <script>
+            window.editors = {}
+            {% for part in parts %}
+                ClassicEditor
+                    .create(document.querySelector('#{{ part }}-editor'), {
+                        licenseKey: '',
+                    })
+                    .then(e => {
+                        window.editors["{{part}}"] = e
+                        console.log(window.editors)
+                    })
+                    .catch(error => {
+                        console.error('Oops, something went wrong!');
+                        console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                        console.warn('Build id: jel9i54fbxs0-yav59cakff6u');
+                        console.error(error);
+                    });
+            {% endfor %}
+
+
+
+            function save() {
+                const data = Object.entries(window.editors).map(([key, e]) => [key, e.getData()])
+
+            }
+        </script>
+    {% endif %}
+
 {% endblock %}
