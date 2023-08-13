@@ -49,7 +49,7 @@ SHARED_APPS = [
     'widget_tweaks',
     'tailwind',
     'theme',
-    'django_browser_reload'
+    'django_browser_reload',
     'animals_public',
     'cms_public'
 ]
@@ -94,6 +94,8 @@ ROOT_URLCONF = 'shelterProject.urls'
 PUBLIC_SCHEMA_URLCONF = 'shelterProject.urls_public'
 
 SHOW_PUBLIC_IF_NO_TENANT_IS_FOUND = True
+
+LOGIN_REDIRECT_URL = "/"
 
 TEMPLATES = [
     {

@@ -1,0 +1,21 @@
+{% extends "base_tenant.html" %}
+
+{% block title %}
+    {{ block.super }} - Login
+{% endblock %}
+
+
+{% block content %}
+    {{ block.super }}
+    <section class="flex justify-center h-screen">
+        <div class="text-center">
+            <h2 class="text-blue-700 font-bold text-5xl my-14">Sign in to {{ request.tenant_name }}</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="{{ PRIMARY_BUTTON }}">Log In</button>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}
