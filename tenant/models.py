@@ -4,6 +4,11 @@ from django.utils.safestring import mark_safe
 from animals_public.models import DogBreed, CatBreed
 from tenant import choices
 
+ANIMALS = {
+    "DOG": "Dog",
+    "CAT": "Cat"
+}
+
 
 class Animal(models.Model):
     name = models.CharField(max_length=50)
@@ -11,6 +16,7 @@ class Animal(models.Model):
     description = models.CharField(max_length=1000)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    type = models.CharField(choices=ANIMALS.items())
 
 
 class Image(models.Model):
@@ -32,6 +38,10 @@ class Dog(Animal):
 
     breed = models.ForeignKey(DogBreed, on_delete=models.SET_NULL, null=True)
 
+    def save(self, *args, **kwargs):
+        self.type = ANIMALS["DOG"]
+        super(Dog, self).save(*args, **kwargs)
+
 
 class Cat(Animal):
     size = models.CharField(
@@ -41,3 +51,7 @@ class Cat(Animal):
     )
 
     breed = models.ForeignKey(CatBreed, on_delete=models.SET_NULL, null=True)
+
+    def save(self, *args, **kwargs):
+        self.type = ANIMALS["CAT"]
+        super(Cat, self).save(*args, **kwargs)

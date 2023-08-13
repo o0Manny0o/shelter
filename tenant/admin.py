@@ -11,6 +11,7 @@ class ImagesInline(admin.TabularInline):
 @admin.register(models.Dog)
 class DogAdmin(admin.ModelAdmin):
     list_display = ('name', 'breed', 'age', 'size')
+    exclude = ('type',)
     inlines = [
         ImagesInline
     ]
@@ -19,6 +20,7 @@ class DogAdmin(admin.ModelAdmin):
 @admin.register(models.Cat)
 class CatAdmin(admin.ModelAdmin):
     list_display = ('name', 'breed', 'age', 'size')
+    exclude = ('type',)
     inlines = [
         ImagesInline
     ]

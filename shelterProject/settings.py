@@ -78,6 +78,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'settings.middlewares.SiteConfigurationMiddleware',
+    'tenant.middlewares.animal_types.AnimalTypesMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
 ]
 
