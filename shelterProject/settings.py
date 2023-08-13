@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import environ
 import os
 from pathlib import Path
+from django.forms.renderers import TemplatesSetting
 
 env = environ.Env()
 
@@ -44,6 +45,11 @@ SHARED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.forms',
+    'widget_tweaks',
+    'tailwind',
+    'theme',
+    'django_browser_reload'
     'animals_public',
     'cms_public'
 ]
@@ -80,6 +86,7 @@ MIDDLEWARE = [
     'settings.middlewares.SiteConfigurationMiddleware',
     'tenant.middlewares.animal_types.AnimalTypesMiddleware',
     'django_htmx.middleware.HtmxMiddleware',
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'shelterProject.urls'
@@ -100,6 +107,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shelterProject.context_processors.global_styles'
             ],
         },
     },
@@ -175,3 +183,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+TAILWIND_APP_NAME = 'theme'
+
+
+class TailwindFormRenderer(TemplatesSetting):
+    form_template_name = "snippets/form_snippet.html"
+
+
+FORM_RENDERER = "shelterProject.settings.TailwindFormRenderer"

@@ -1,0 +1,13 @@
+{% load widget_tweaks %}
+{% for hidden_field in form.hidden_fields %}
+    {{ hidden_field }}
+{% endfor %}
+
+
+{% for field in form.visible_fields %}
+    <div class="mb-6">
+    {{ field.errors }}
+    <label class="hidden" for="{{ field.id_for_label }}">{{ field.name|capfirst }}</label>
+    {% render_field field placeholder=field.name|capfirst class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %}
+    </div>
+{% endfor %}

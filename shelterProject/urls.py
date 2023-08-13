@@ -24,6 +24,7 @@ urlpatterns = [
     path("auth/", include("django.contrib.auth.urls")),
     path("", include("tenant.urls")),
     path("__debug__/", include("debug_toolbar.urls")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 if settings.DEBUG:
