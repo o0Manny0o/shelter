@@ -18,6 +18,5 @@ class Domain(DomainMixin):
 
 @receiver(post_schema_sync, sender=TenantMixin)
 def created_user_client(sender, **kwargs):
-
     client = kwargs['tenant']
     print(client)

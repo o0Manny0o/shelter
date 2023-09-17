@@ -29,6 +29,9 @@
 
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
+    {% block head %}
+    {% endblock %}
+
     {% tailwind_css %}
 
 </head>
@@ -49,7 +52,7 @@
     {% block pre_container %}
     {% endblock %}
     <div class="max-w-11xl mx-auto px-4 sm:px-6 md:px-8">
-        <aside class="fixed top-0 left-[max(2rem,calc(50%-58rem))] w-64 h-screen transition-transform -translate-x-full sm:translate-x-0">
+        <aside class="fixed top-0 left-[max(0rem,calc(50%-58rem))] w-64 h-screen transition-transform -translate-x-full sm:translate-x-0">
             {% block sidebar %}
             {% endblock %}
         </aside>

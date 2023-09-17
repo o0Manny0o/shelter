@@ -2,6 +2,8 @@ import os
 from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
+from django_tenants.utils import tenant_context
+from main.models import Client
 
 
 def templates_path():
@@ -19,12 +21,6 @@ class Layout(models.Model):
             template='default.html'
         )
         return layout.pk
-
-    def save(self, *args, **kwargs):
-        if not self._state.adding:
-            for page in self.pages.all():
-                print(page.name)
-        super(Layout, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name

@@ -1,0 +1,26 @@
+<li>
+    {% widthratio level 1 2 as padding %}
+    {% if page.children.all|length %}
+        <input type="checkbox" id="{{ page.slug }}-toggle" value="" {% if page.active %} checked {% endif %} class="hidden peer">
+        <label for="{{ page.slug }}-toggle"
+               class="{{ anchor_styles }} px-{{ padding }} cursor-pointer {% if page.active %} text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-700 {% endif %}"
+               aria-controls="{{ page.slug }}-dropdown"
+               data-collapse-toggle="{{ page.slug }}-dropdown"
+        >
+            <i class="fa-solid {{ page.icon }} {{ icon_styles }}"></i>
+            <span class="ml-3">{{ page.title }}</span>
+            <i class="fa-solid fa-chevron-down {{ icon_styles }} flex-1"></i>
+        </label>
+        <ul id="{{ page.slug }}-dropdown" class="hidden py-2 space-y-2 peer-checked:block transition">
+            {% for child in page.children.all %}
+                {% include 'components/tenant_navigation_entry.html' with page=child anchor_styles=anchor_styles icon_styles=icon_styles level=level|add:"1" %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <a href="/{{ page.slug }}"
+           class="{{ anchor_styles }} px-{{ padding }} {% if page.active %} text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-700 {% endif %}">
+            <i class="fa-solid {{ page.icon }} {{ icon_styles }}"></i>
+            <span class="ml-3">{{ page.title }}</span>
+        </a>
+    {% endif %}
+</li>

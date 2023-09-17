@@ -1,0 +1,14 @@
+{% extends "base_tenant.html" %}
+
+{% block title %}
+    {{ block.super }} - Logged Out
+{% endblock %}
+
+
+{% block content %}
+    {{ block.super }}
+
+    <h2>Logged Out</h2>
+    <a href="{% url 'login' %}">Login again</a>
+
+{% endblock %}

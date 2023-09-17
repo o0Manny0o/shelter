@@ -1,7 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     Shelter thing
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/pico.min.css' %}"></link>
 {% endblock %}
 
 {% block content %}
