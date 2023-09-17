@@ -1,23 +1,29 @@
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from .models import Animal
 
 
 # Create your views here.
-class Test(View):
+class TestView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'welcome.html')
 
 
-class Animals(View):
+class AnimalsView(View):
     def get(self, request, *args, **kwargs):
         query = Animal.objects.all().prefetch_related('images')
         return render(request, 'animals.html', {'animal_list': query})
 
 
-class SignUp(View):
+class AnimalView(View):
+    def get(self, request, id, *args, **kwargs):
+        query = get_object_or_404(Animal, id=id)
+        return render(request, 'animal.html', {'animal': query})
+
+
+class SignUpView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:

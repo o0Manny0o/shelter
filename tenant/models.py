@@ -18,12 +18,18 @@ class Animal(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
     type = models.CharField(choices=ANIMALS.items())
 
+    def __str__(self):
+        return self.name
+
 
 class Image(models.Model):
     title = models.CharField(null=True, max_length=50)
     image = models.ImageField(upload_to='images')
-    order = models.IntegerField(unique=True)
+    order = models.IntegerField()
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='images')
+
+    class Meta:
+        unique_together = ('order', 'animal')
 
     def img_preview(self):  # new
         return mark_safe(f'<img src = "{self.image.url}" width = "100"/>')

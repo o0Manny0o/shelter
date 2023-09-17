@@ -8,10 +8,16 @@
 {% block content %}
     {{ block.super }}
 
-    {% for animal in animal_list %}
-        <div>
-            <h2>{{ animal.name }}</h2>
-            <img src="{{ animal.images.all.0.image.url }}" alt="image">
-        </div>
-    {% endfor %}
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 w-full py-6 px-4">
+        {% for animal in animal_list %}
+            <a class="h-96" href="{% url 'tenant:animal' animal.id %}">
+                <p class="absolute">{{ animal.name }}</p>
+                {% if animal.images.all %}
+                    <img class="h-full w-full rounded-lg object-cover" src="{{ animal.images.all.0.image.url }}" alt="image">
+                {% else %}
+                    <p>No image</p>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -7,6 +7,9 @@ class Breed(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return self.name
+
 
 class DogBreed(Breed):
     class Meta(Breed.Meta):
@@ -16,3 +19,4 @@ class DogBreed(Breed):
 class CatBreed(Breed):
     class Meta(Breed.Meta):
         db_table = "cat_breeds"
+
