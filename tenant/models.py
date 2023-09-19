@@ -1,3 +1,4 @@
+from cloudinary import CloudinaryImage
 from django.db import models
 from django.utils.safestring import mark_safe
 
@@ -24,7 +25,7 @@ class Animal(models.Model):
 
 class Image(models.Model):
     title = models.CharField(null=True, max_length=50)
-    image = models.ImageField(upload_to='images')
+    image = models.ImageField(upload_to='images/')
     order = models.IntegerField()
     animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name='images')
 
@@ -32,7 +33,7 @@ class Image(models.Model):
         unique_together = ('order', 'animal')
 
     def img_preview(self):  # new
-        return mark_safe(f'<img src = "{self.image.url}" width = "100"/>')
+        return mark_safe(CloudinaryImage(self.image.name).image(transformation=['pet_100'], sign_url=True))
 
 
 class Dog(Animal):

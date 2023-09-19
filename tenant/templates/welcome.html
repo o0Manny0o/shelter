@@ -8,8 +8,8 @@
 {% block pre_container %}
     {{ block.super }}
     {% if request.config.hero %}
-        <div class="h-[85vh] w-screen bg-center bg-no-repeat shadow-2xl"
-             style="background-image: url('media/{{ request.config.hero }}')">
+        <div class="h-[85vh] w-screen bg-center bg-no-repeat bg-cover shadow-2xl"
+             style="background-image: url('{{ request.config.hero.url }}')">
             <div class="absolute left-[max(24rem,calc(50%-24rem))] top-[50vh]">
                 <h1 class="text-6xl font-bold text-white">{{ request.config.title | capfirst }}</h1>
                 <a href="{% url 'tenant:animals' %}" class="mt-6 inline-block {{ PRIMARY_BUTTON }}">Adopt Now</a>
