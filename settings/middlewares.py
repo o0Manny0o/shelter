@@ -9,6 +9,7 @@ class SiteConfigurationMiddleware:
         if request.tenant.name != 'public':
             config = SiteConfiguration.get_solo()
             request.config = config
+            request.base_layout = config.get_layout()
         response = self.get_response(request)
 
         return response

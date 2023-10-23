@@ -177,6 +177,10 @@ CLOUDINARY_STORAGE = {
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = (
+  os.path.join(BASE_DIR, 'static/'),
+)
+
 STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 # Default primary key field type

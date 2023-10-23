@@ -1,4 +1,7 @@
-{% extends "base_tenant.html" %}
+{% extends request.base_layout %}
+{% load filters %}
+{% load cloudinary %}
+
 
 {% block title %}
     {{ block.super }} - Animal - {{ animal.name }}
@@ -9,11 +12,15 @@
     {{ block.super }}
 
     <div class="grid grid-cols-3 gap-6 py-6">
-    <div>
-        <img src="{{ animal.images.all.0.image.url }}" alt="">
-    </div>
-    <div class="col-span-2">
-        <h1>{{ animal.name }}</h1>
-    </div>
+        <div>
+            {% cloudinary animal.images.all.0.image.name ANIMAL_THUMB class="h-full w-full rounded-lg object-cover" alt=animal.images.all.0.title %}
+        </div>
+        <div class="col-span-2">
+            <h1>{{ animal.name }}</h1>
+            <p>{{ animal.breed.name }}</p>
+        </div>
+        {% for img in animal.images.all|removeFirst %}
+            {% cloudinary img.image.name ANIMAL_THUMB class="h-full w-full rounded-lg object-cover" alt=animal.name %}
+        {% endfor %}
     </div>
 {% endblock %}

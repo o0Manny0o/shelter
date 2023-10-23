@@ -7,7 +7,7 @@
         </a>
         <ul class="font-medium">
             {% with anchor_styles="flex items-center py-2 text-gray-500 rounded-lg transition duration-75 group-hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700" icon_styles="w-5 h-5 flex items-center justify-center" %}
-                <li>
+                <li class="py-1">
                     <a href="{% url 'tenant:animals' %}"
                        class="{{ anchor_styles }} px-2 {% if request.resolver_match.namespace == 'tenant' and request.resolver_match.url_name == 'animals' %} text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-700 {% endif %}">
                         <i class="fa-solid fa-dog {{ icon_styles }}"></i>
@@ -15,12 +15,12 @@
                     </a>
                 </li>
                 {% for page in pages %}
-                    {% include 'components/tenant_navigation_entry.html' with page=page anchor_styles=anchor_styles icon_styles=icon_styles level=1 %}
+                    {% include 'components/side_navigation/side_navigation_entry.html' with page=page anchor_styles=anchor_styles icon_styles=icon_styles level=1 %}
                 {% endfor %}
 
                 {% if user.is_authenticated %}
                     {% if user.is_staff %}
-                        <li>
+                        <li class="py-1">
                             <a href="/admin"
                                class="{{ anchor_styles }} px-2">
                                 <i class="fa-solid fa-screwdriver-wrench {{ icon_styles }}"></i>
@@ -28,7 +28,7 @@
                             </a>
                         </li>
                     {% endif %}
-                    <li>
+                    <li class="py-1">
                         <a href="{% url 'logout' %}"
                            class="{{ anchor_styles }} px-2">
                             <i class="fa-solid fa-right-from-bracket {{ icon_styles }}"></i>
@@ -36,7 +36,7 @@
                         </a>
                     </li>
                 {% else %}
-                    <li>
+                    <li class="py-1.5">
                         <a href="{% url 'login' %}"
                            class="{{ anchor_styles }} px-2 {% if request.resolver_match.url_name == 'login' %} text-gray-900 bg-gray-100 dark:text-white dark:bg-gray-700 {% endif %}">
                             <i class="fa-solid fa-right-to-bracket {{ icon_styles }}"></i>

@@ -19,7 +19,7 @@ class AnimalsView(View):
 
 class AnimalView(View):
     def get(self, request, id, *args, **kwargs):
-        query = get_object_or_404(Animal, id=id)
+        query = get_object_or_404(Animal.objects.prefetch_related('images'), id=id)
         return render(request, 'animal.html', {'animal': query})
 
 

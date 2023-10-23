@@ -1,4 +1,4 @@
-<li>
+<li class="py-1">
     {% widthratio level 1 2 as padding %}
     {% if page.children.all|length %}
         <input type="checkbox" id="{{ page.slug }}-toggle" value="" {% if page.active %} checked {% endif %} class="hidden peer">
@@ -13,7 +13,7 @@
         </label>
         <ul id="{{ page.slug }}-dropdown" class="hidden py-2 space-y-2 peer-checked:block transition">
             {% for child in page.children.all %}
-                {% include 'components/tenant_navigation_entry.html' with page=child anchor_styles=anchor_styles icon_styles=icon_styles level=level|add:"1" %}
+                {% include 'components/side_navigation/side_navigation_entry.html' with page=child anchor_styles=anchor_styles icon_styles=icon_styles level=level|add:"1" %}
             {% endfor %}
         </ul>
     {% else %}

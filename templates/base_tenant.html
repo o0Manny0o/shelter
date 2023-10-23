@@ -5,11 +5,7 @@
     {{ request.tenant_name }}
 {% endblock %}
 
-{% block sidebar %}
-    {% include 'components/navigation.html' %}
-{% endblock %}
-
-{% block pre_content %}
+{% block pre_body %}
     {% if user.is_authenticated and is_edit %}
         <form method="post" action="{% url 'tenant:cms:page' page.slug %}">
         {% csrf_token %}
@@ -17,10 +13,7 @@
     {% endif %}
 {% endblock %}
 
-{% block content %}
-{% endblock %}
-
-{% block post_content %}
+{% block post_body %}
     </form>
 {% endblock %}
 
