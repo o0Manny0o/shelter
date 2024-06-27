@@ -1,4 +1,6 @@
 import environ
+from cloudinary.models import CloudinaryField
+from django.core.cache import cache
 from django.db import models
 from django.db.models import TextChoices
 from django.dispatch import receiver
@@ -16,9 +18,9 @@ class LayoutChoices(TextChoices):
 
 class SiteConfiguration(SingletonModel):
     title = models.CharField(max_length=25, help_text="Page title displayed at the top of every page")
-    logo = models.ImageField(upload_to='images/', default=env("DEFAULT_LOGO_URL"),
-                             help_text="The logo next to the title")
-    hero = models.ImageField(upload_to='images/', null=True, blank=True)
+    logo = CloudinaryField('image', default=env("DEFAULT_LOGO_URL"),
+                           help_text="The logo next to the title")
+    hero = CloudinaryField('image', null=True, blank=True)
     base_layout = models.CharField(choices=LayoutChoices.choices, default=LayoutChoices.SIDE_NAVIGATION)
 
     def __str__(self):
@@ -27,6 +29,10 @@ class SiteConfiguration(SingletonModel):
     def get_layout(self):
         return "layouts/" + LayoutChoices(self.base_layout)
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        cache.delete("site_config")
+
 
 @receiver(post_schema_sync, sender=TenantMixin)
 def created_user_client(sender, **kwargs):
@@ -34,3 +40,4 @@ def created_user_client(sender, **kwargs):
     if client.name != 'public':
         with tenant_context(client):
             SiteConfiguration.objects.create(title=client.name)
+            print("Created Site Configuration for %s" % client.name)

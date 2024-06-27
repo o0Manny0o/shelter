@@ -9,9 +9,13 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 import environ
 import os
 from pathlib import Path
+
 from django.forms.renderers import TemplatesSetting
 
 env = environ.Env()
@@ -44,7 +48,6 @@ SHARED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
     'django.forms',
@@ -99,6 +102,8 @@ SHOW_PUBLIC_IF_NO_TENANT_IS_FOUND = True
 
 LOGIN_REDIRECT_URL = "/"
 
+DOMAIN = env('DOMAIN')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -137,6 +142,20 @@ DATABASES = {
     }
 }
 
+CACHE_TTL = 60 * 15
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        'KEY_FUNCTION': 'django_tenants.cache.make_key',
+        'REVERSE_KEY_FUNCTION': 'django_tenants.cache.reverse_key',
+    },
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -169,19 +188,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': env('CLOUDINARY_NAME'),
-    'API_KEY': env('CLOUDINARY_API_KEY'),
-    'API_SECRET': env('CLOUDINARY_API_SECRET')
-}
+cloudinary.config(
+  	cloud_name = env('CLOUDINARY_NAME'),
+  	api_key = env('CLOUDINARY_API_KEY'),
+  	api_secret = env('CLOUDINARY_API_SECRET')
+)
 
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = (
-  os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'static/'),
 )
-
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -192,11 +209,15 @@ MEDIA_URL = '/media/'
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
+# Tailwind
+
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
 TAILWIND_APP_NAME = 'theme'
+
+NPM_BIN_PATH = env('NPM_BIN_PATH')
 
 
 class TailwindFormRenderer(TemplatesSetting):

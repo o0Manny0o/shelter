@@ -1,3 +1,5 @@
+from django.core.cache import cache
+
 from settings.models import SiteConfiguration
 
 
@@ -7,9 +9,11 @@ class SiteConfigurationMiddleware:
 
     def __call__(self, request):
         if request.tenant.name != 'public':
-            config = SiteConfiguration.get_solo()
+            config = cache.get("site_config")
+            if config is None:
+                config = SiteConfiguration.get_solo()
+                cache.set("site_config", config, None)
             request.config = config
-            request.base_layout = config.get_layout()
         response = self.get_response(request)
 
         return response

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views import View
 from django_tenants.utils import schema_context
-
+from django.conf import settings
 from main.forms import SignupForm
 from main.models import Client, Domain
 
@@ -28,10 +28,10 @@ class SignUp(View):
         form = SignupForm(request.POST)
         if form.is_valid():
             tenant = Client(schema_name=form.cleaned_data['domain'],
-                            name=form.cleaned_data['username'])
+                            name=form.cleaned_data['name'])
             tenant.save()
             domain = Domain()
-            domain.domain = form.cleaned_data['domain'] + '.localhost'
+            domain.domain = form.cleaned_data['domain'].lower() + '.' + settings.DOMAIN
             domain.tenant = tenant
             domain.is_primary = True
             domain.save()
@@ -47,6 +47,7 @@ class SignUp(View):
             return redirect(f'http://{domain.domain}:8000/')
         else:
             return render(request, 'sign_up.html', {'form': form})
+
 
 class Logout(View):
     def get(self, request, *args, **kwargs):

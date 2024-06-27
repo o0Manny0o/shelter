@@ -14,7 +14,7 @@
             <a class="h-96 relative" href="{% url 'tenant:animal' animal.id %}">
                 <h3 class="absolute bottom-0 p-3 inset-x-0 bg-gray-50 bg-opacity-60 font-bold text-2xl">{{ animal.name }}</h3>
                 {% if animal.images.all %}
-                    {% cloudinary animal.images.all.0.image.name ANIMAL_THUMB class="h-full w-full rounded-lg object-cover" alt=animal.images.all.0.title %}
+                    {% cloudinary animal.images.all.0.image ANIMAL_THUMB class="h-full w-full rounded-lg object-cover" alt=animal.images.all.0.title %}
                 {% else %}
                     <p>No image</p>
                 {% endif %}
