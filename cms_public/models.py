@@ -1,9 +1,8 @@
 import os
-from django.db import models
+
 from django.conf import settings
+from django.db import models
 from django.utils.text import slugify
-from django_tenants.utils import tenant_context
-from main.models import Client
 
 
 def templates_path():
@@ -31,6 +30,9 @@ class Section(models.Model):
     slug = models.SlugField(max_length=50)
     layout = models.ForeignKey(Layout, on_delete=models.CASCADE, related_name='sections')
     default = models.TextField()
+
+    class Meta:
+        unique_together = ('slug', 'layout')
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

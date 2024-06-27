@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django_tenants.utils import tenant_context
 
 from cms.models import Page
@@ -17,10 +18,13 @@ def find_parent(pages, slug):
 def tenant_pages(request):
     if request.tenant.name == 'public':
         return {}
-    with tenant_context(request.tenant):
-        pages = Page.objects.prefetch_related('children').exclude(parent__isnull=False)
-        for page in pages:
-            page.is_active(slug=request.path)
+    pages = cache.get("tenant_pages")
+    if pages is None:
+        with tenant_context(request.tenant):
+            pages = Page.objects.exclude(parent__isnull=False).select_related("parent")
+            for page in pages:
+                page.is_active(slug=request.path)
+        cache.set("tenant_pages", list(pages), timeout=60)
 
     return {
         "pages": pages

@@ -22,6 +22,12 @@ class Animal(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        super(Animal, self).save(*args, **kwargs)
+        cache.delete("animals")
+        for animal in Animal.objects.all():
+            cache.delete(f"animal_{animal.id}")
+
 
 class Image(models.Model):
     title = models.CharField(null=True, max_length=50)

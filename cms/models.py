@@ -1,19 +1,29 @@
+from django.core.cache import cache
 from django.db import models
+
+from cms.mixins import RecursiveAutoPrefetchManagerMixin
 from cms_public.models import Layout
+
+
+class PageManager(RecursiveAutoPrefetchManagerMixin, models.Manager):
+    depth = 3
+    lookup_field = "children"
 
 
 class Page(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    objects = PageManager()
     title = models.CharField(max_length=50, null=False, blank=False, default='My new page')
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, db_index=True)
     parent = models.ForeignKey('self', null=True, on_delete=models.SET_NULL, blank=True, related_name='children')
     level = models.IntegerField(default=0)
-    layout = models.ForeignKey(Layout, on_delete=models.SET_DEFAULT, default=Layout.get_default_pk, related_name='pages')
+    layout = models.ForeignKey(Layout, on_delete=models.SET_DEFAULT, default=None, related_name='pages')
     icon = models.CharField(blank=True, null=True)
     active = False
 
-
     def save(self, *args, **kwargs):
+        cache.delete("tenant_pages")
+        cache.delete(self.slug)
         if self.parent:
             try:
                 parent = Page.objects.get(id=self.parent.id)
@@ -26,6 +36,8 @@ class Page(models.Model):
                 pass
         super(Page, self).save(*args, **kwargs)
         if self._state.adding:
+            if self.layout is None:
+                self.layout = Layout.get_default_pk()
             for section in self.layout.sections.all():
                 PagePart.objects.get_or_create(page=self, slug=section.slug, content=section.default)
 

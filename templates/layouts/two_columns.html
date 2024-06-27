@@ -1,4 +1,4 @@
-{% extends request.base_layout %}
+{% extends request.config.get_layout %}
 
 {% block title %}
     {{ block.super }} - {{ page.title }}

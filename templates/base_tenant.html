@@ -9,7 +9,7 @@
     {% if user.is_authenticated and is_edit %}
         <form method="post" action="{% url 'tenant:cms:page' page.slug %}">
         {% csrf_token %}
-        <button onclick="save()">Save</button>
+        <input type="submit" value="Save" />
     {% endif %}
 {% endblock %}
 
@@ -43,13 +43,6 @@
                         console.error(error);
                     });
             {% endfor %}
-
-
-
-            function save() {
-                const data = Object.entries(window.editors).map(([key, e]) => [key, e.getData()])
-
-            }
         </script>
     {% endif %}
 
